@@ -1,3 +1,5 @@
+# test
+import os
 import time
 
 import pandas as pd
@@ -225,15 +227,26 @@ def compare_data(excel):
                 # print the details of what code found
                 update_sql_query(player_id, (different_value.values.tolist())[0], different_header, excel)
                 print("Find Player " + i + " has the different data in " + excel + " in " + year.__str__())
+    if count == 0:
+        print("Hi Dear user! There is nothing needs to update right now about " + excel + ", please update later. "
+                                                                                          "Thanks")
+    os.remove(excel_name1)
+    os.rename(excel_name2, excel_name1)
 
 
 # !!!!!if want to use different types of data just change the tags below!!!!
 # grab the new data from the RealGM website and save them into Excel files
 
 clear_last_update_data()
+
 for j in stat_Type:
+    new_data.clear()
+    for k in position_Type:
+        write_excel_xls_append(set_xls_name(j), get_selected_data(j, k.__str__()))
     compare_data(j.__str__())
     conn.commit()
+
+
 c1.close()
 c2.close()
 c3.close()
